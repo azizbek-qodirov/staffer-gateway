@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package staff;
+
+option go_package = "genprotos/";
+
+import "staffer-protos/void.proto";
+
+service PositionService{
+  rpc Create (CreatePosition) returns (Void);
+  rpc Update (UpdatePosition) returns (Void);
+  rpc Delete(Byid) returns (Void);
+  rpc GetAll(GetAllPositionsRequest) returns (GetAllPositionResponse);
+}
+
+message CreatePosition {
+    string title = 1;
+    string description = 2;
+    string department_id = 3;
+}
+
+
+message UpdatePosition{
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  string department_id = 4;
+}
+
+message GetAllPositionsRequest{
+  string position_id = 1;
+  string user_id = 2;
+  string vacansy_id = 3;
+}
+
+message GetAllPositionResponse{
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  string department_id = 4;
+  bool success =5;
+}

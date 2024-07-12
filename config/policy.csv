@@ -1,0 +1,12 @@
+p, unauthorized, /user/login, POST
+p, unauthorized, /user/register, POST
+
+
+
+p, admin, /user/getall, GET
+p, admin, /getbyid/:id, GET
+p, admin, /update/:id, PUT
+p, admin, /delete/:id, DELETE
+
+p, unauthorized, /evaluations/create, POST
+p, unauthorized, /evaluations, GET

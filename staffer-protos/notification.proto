@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package staff;
+
+option go_package = "genprotos/";
+
+import "staffer-protos/void.proto";
+
+
+service ServiceNotification {
+    rpc Create(CreateNotification) returns (Void);// Send a new notification.
+    rpc GetByUserId(GetAllRequest) returns (GetAllResponse);//Get notification byid. and list notifications for a user.
+    rpc ReadeAll(ReadeAllRequest) returns (Void); //Mark all notifications as read for a 
+    rpc SendAll(SendByCompanyidToUsers) returns (Void);//Send a notification to all users.
+}
+
+message CreateNotification {
+    string user_id = 1;
+    string type = 2;
+    string message = 3;
+    bool is_read = 4;
+};
+message GetAllRequest{
+    string user_id = 1;
+    string notifiation_id = 2;
+}
+message GetAllResponse{
+    repeated CreateNotification notifications=1;
+    bool success=2;
+}
+
+message ReadeAllRequest{
+    string user_id=1;
+}
+
+message SendByCompanyidToUsers{
+    string company_id =1;
+    string type = 2;
+    string message = 3;
+}

@@ -1,0 +1,922 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Voting service",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/evaluations": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get all evaluations with optional filters",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Evaluations"
+                ],
+                "summary": "Get All Evaluations",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Evaluator ID",
+                        "name": "evaluator_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Employee ID",
+                        "name": "employee_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of Evaluations",
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.EvaluationGetAllRes"
+                        }
+                    },
+                    "401": {
+                        "description": "Error while fetching evaluations",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing evaluation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Evaluations"
+                ],
+                "summary": "Update Evaluation",
+                "parameters": [
+                    {
+                        "description": "Evaluation Data",
+                        "name": "evaluation",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.EvaluationUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Evaluation Updated Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.Void"
+                        }
+                    },
+                    "401": {
+                        "description": "Error while updating evaluation",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/evaluations/create": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new evaluation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Evaluations"
+                ],
+                "summary": "Create Evaluation",
+                "parameters": [
+                    {
+                        "description": "Evaluation Data",
+                        "name": "evaluation",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.EvaluationCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Evaluation Created Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.Void"
+                        }
+                    },
+                    "401": {
+                        "description": "Error while creating evaluation",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/evaluations/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get an evaluation by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Evaluations"
+                ],
+                "summary": "Get Evaluation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Evaluation ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Evaluation Data",
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.EvaluationUpdate"
+                        }
+                    },
+                    "401": {
+                        "description": "Error while fetching evaluation",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete an evaluation by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Evaluations"
+                ],
+                "summary": "Delete Evaluation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Evaluation ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Evaluation Deleted Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.Void"
+                        }
+                    },
+                    "401": {
+                        "description": "Error while deleting evaluation",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/guides": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "List all guides with optional filters",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Guides"
+                ],
+                "summary": "List All Guides",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Guide Title",
+                        "name": "title",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Guide Content",
+                        "name": "content",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of Guides",
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.ListAllGuidesResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Error while listing guides",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing guide",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Guides"
+                ],
+                "summary": "Update Guide",
+                "parameters": [
+                    {
+                        "description": "Guide Data",
+                        "name": "guide",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.UpdateGuideRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Guide Updated Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.Void"
+                        }
+                    },
+                    "401": {
+                        "description": "Error while updating guide",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new guide",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Guides"
+                ],
+                "summary": "Create Guide",
+                "parameters": [
+                    {
+                        "description": "Guide Data",
+                        "name": "guide",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.CreateGuideRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Guide Created Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.Void"
+                        }
+                    },
+                    "401": {
+                        "description": "Error while creating guide",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/guides/search": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Search for guides by title or content",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Guides"
+                ],
+                "summary": "Search Guides",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Guide Title",
+                        "name": "title",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Guide Content",
+                        "name": "content",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of Found Guides",
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.ListAllGuidesResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Error while searching guides",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/guides/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get a guide by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Guides"
+                ],
+                "summary": "Get Guide",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Guide ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Guide Data",
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.GuideResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Error while fetching guide",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete a guide by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Guides"
+                ],
+                "summary": "Delete Guide",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Guide ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Guide Deleted Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.Void"
+                        }
+                    },
+                    "401": {
+                        "description": "Error while deleting guide",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get notifications by user ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notification"
+                ],
+                "summary": "Get Notifications",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Notification ID",
+                        "name": "notification_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Notifications fetched successfully",
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.GetAllResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Error while fetching notifications",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new notification",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notification"
+                ],
+                "summary": "Create Notification",
+                "parameters": [
+                    {
+                        "description": "Notification data",
+                        "name": "notification",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.CreateNotification"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Notification created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.Void"
+                        }
+                    },
+                    "401": {
+                        "description": "Error while creating notification",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications/read_all": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mark all notifications as read for a user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notification"
+                ],
+                "summary": "Read All Notifications",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All notifications marked as read",
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.Void"
+                        }
+                    },
+                    "401": {
+                        "description": "Error while marking notifications as read",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications/send_all": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Send a notification to all users in a company",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notification"
+                ],
+                "summary": "Send Notification To All",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Company ID",
+                        "name": "company_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "Notification data",
+                        "name": "notification",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.SendByCompanyidToUsers"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Notification sent to all users",
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.Void"
+                        }
+                    },
+                    "401": {
+                        "description": "Error while sending notification",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications/send_all_users": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Send a notification to all users",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notification"
+                ],
+                "summary": "Send Notification To All Users",
+                "parameters": [
+                    {
+                        "description": "Notification data",
+                        "name": "notification",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.SendByCompanyidToUsers"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Notification sent to all users",
+                        "schema": {
+                            "$ref": "#/definitions/genprotos.Void"
+                        }
+                    },
+                    "401": {
+                        "description": "Error while sending notification",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "genprotos.CreateGuideRequest": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "genprotos.CreateNotification": {
+            "type": "object",
+            "properties": {
+                "is_read": {
+                    "type": "boolean"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "genprotos.EvaluationCreate": {
+            "type": "object",
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "string"
+                },
+                "evaluator_id": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "number"
+                }
+            }
+        },
+        "genprotos.EvaluationGetAllRes": {
+            "type": "object",
+            "properties": {
+                "Evaluations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/genprotos.EvaluationUpdate"
+                    }
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "genprotos.EvaluationUpdate": {
+            "type": "object",
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "string"
+                },
+                "evaluator_id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "number"
+                }
+            }
+        },
+        "genprotos.GetAllResponse": {
+            "type": "object",
+            "properties": {
+                "notifications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/genprotos.CreateNotification"
+                    }
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "genprotos.Guide": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "genprotos.GuideResponse": {
+            "type": "object",
+            "properties": {
+                "guide": {
+                    "$ref": "#/definitions/genprotos.Guide"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "genprotos.ListAllGuidesResponse": {
+            "type": "object",
+            "properties": {
+                "guides": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/genprotos.Guide"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "genprotos.SendByCompanyidToUsers": {
+            "type": "object",
+            "properties": {
+                "company_id": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "genprotos.UpdateGuideRequest": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "genprotos.Void": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authourization",
+            "in": "header"
+        }
+    }
+}

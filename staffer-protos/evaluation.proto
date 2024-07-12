@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package staff;
+
+option go_package = "genprotos/";
+
+import "staffer-protos/void.proto";
+
+
+service EvaulationService {
+  rpc Create(EvaluationCreate) returns (Void);
+  rpc Get(Byid) returns (EvaluationUpdate);
+  rpc Update(EvaluationUpdate) returns (Void);
+  rpc Delete(Byid) returns (Void);
+  rpc GetAll(EvaluationGetAllReq) returns (EvaluationGetAllRes);
+};
+
+message EvaluationCreate {
+  string evaluator_id = 2;
+  string employee_id = 3;
+  float rating = 4;
+  string comment =5;
+};
+
+message EvaluationUpdate {
+  string id = 1;
+  string evaluator_id = 2;
+  string employee_id = 3;
+  float rating = 4;
+  string comment =5;
+};
+
+message EvaluationGetAllReq {
+  string evaluator_id = 1;
+  string employee_id = 2;
+  float rating = 3;
+  Pagination filter = 4;
+};
+
+message EvaluationGetAllRes {
+  repeated EvaluationUpdate Evaluations = 1;
+  bool success = 2;
+};

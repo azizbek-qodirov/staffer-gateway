@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package staff;
+
+option go_package = "genprotos/";
+
+import "staffer-protos/void.proto";
+
+service GuideService {
+  rpc CreateGuide(CreateGuideRequest) returns (Void);
+  rpc GetGuide(GetGuideRequest) returns (GuideResponse);
+  rpc UpdateGuide(UpdateGuideRequest) returns (Void);
+  rpc DeleteGuide(DeleteGuideRequest) returns (Void);
+  rpc ListAllGuides(ListAllGuidesRequest) returns (ListAllGuidesResponse);
+  rpc SearchGuides(SearchGuidesRequest) returns (ListAllGuidesResponse);
+}
+
+message CreateGuideRequest {
+  string title = 1;
+  string content = 2;
+  string author = 3;
+}
+
+message GetGuideRequest {
+  string id = 1;
+}
+
+message UpdateGuideRequest {
+  string id = 1;
+  string title = 2;
+  string content = 3;
+}
+
+message DeleteGuideRequest {
+  string id = 1;
+}
+
+message ListAllGuidesRequest {
+  string title = 1;
+  string content = 2;
+  bool success =3;
+}
+
+message SearchGuidesRequest {
+  string guiede_id =1;
+  string title = 2;
+  string content = 3;
+}
+
+message GuideResponse {
+  bool success = 1;
+  string message = 2;
+  Guide guide = 3;
+}
+
+message ListAllGuidesResponse {
+  bool success = 1;
+  string message = 2;
+  repeated Guide guides = 3;
+}
+
+message Guide {
+  string id = 1;
+  string title = 2;
+  string content = 3;
+  string author = 4;
+}

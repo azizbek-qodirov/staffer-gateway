@@ -1,0 +1,583 @@
+basePath: /
+definitions:
+  genprotos.CreateGuideRequest:
+    properties:
+      author:
+        type: string
+      content:
+        type: string
+      title:
+        type: string
+    type: object
+  genprotos.CreateNotification:
+    properties:
+      is_read:
+        type: boolean
+      message:
+        type: string
+      type:
+        type: string
+      user_id:
+        type: string
+    type: object
+  genprotos.EvaluationCreate:
+    properties:
+      comment:
+        type: string
+      employee_id:
+        type: string
+      evaluator_id:
+        type: string
+      rating:
+        type: number
+    type: object
+  genprotos.EvaluationGetAllRes:
+    properties:
+      Evaluations:
+        items:
+          $ref: '#/definitions/genprotos.EvaluationUpdate'
+        type: array
+      success:
+        type: boolean
+    type: object
+  genprotos.EvaluationUpdate:
+    properties:
+      comment:
+        type: string
+      employee_id:
+        type: string
+      evaluator_id:
+        type: string
+      id:
+        type: string
+      rating:
+        type: number
+    type: object
+  genprotos.GetAllResponse:
+    properties:
+      notifications:
+        items:
+          $ref: '#/definitions/genprotos.CreateNotification'
+        type: array
+      success:
+        type: boolean
+    type: object
+  genprotos.Guide:
+    properties:
+      author:
+        type: string
+      content:
+        type: string
+      id:
+        type: string
+      title:
+        type: string
+    type: object
+  genprotos.GuideResponse:
+    properties:
+      guide:
+        $ref: '#/definitions/genprotos.Guide'
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  genprotos.ListAllGuidesResponse:
+    properties:
+      guides:
+        items:
+          $ref: '#/definitions/genprotos.Guide'
+        type: array
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  genprotos.SendByCompanyidToUsers:
+    properties:
+      company_id:
+        type: string
+      message:
+        type: string
+      type:
+        type: string
+    type: object
+  genprotos.UpdateGuideRequest:
+    properties:
+      content:
+        type: string
+      id:
+        type: string
+      title:
+        type: string
+    type: object
+  genprotos.Void:
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Voting service
+  version: "1.0"
+paths:
+  /evaluations:
+    get:
+      consumes:
+      - application/json
+      description: Get all evaluations with optional filters
+      parameters:
+      - description: Evaluator ID
+        in: query
+        name: evaluator_id
+        type: string
+      - description: Employee ID
+        in: query
+        name: employee_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of Evaluations
+          schema:
+            $ref: '#/definitions/genprotos.EvaluationGetAllRes'
+        "401":
+          description: Error while fetching evaluations
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get All Evaluations
+      tags:
+      - Evaluations
+    put:
+      consumes:
+      - application/json
+      description: Update an existing evaluation
+      parameters:
+      - description: Evaluation Data
+        in: body
+        name: evaluation
+        required: true
+        schema:
+          $ref: '#/definitions/genprotos.EvaluationUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Evaluation Updated Successfully
+          schema:
+            $ref: '#/definitions/genprotos.Void'
+        "401":
+          description: Error while updating evaluation
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Update Evaluation
+      tags:
+      - Evaluations
+  /evaluations/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an evaluation by ID
+      parameters:
+      - description: Evaluation ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Evaluation Deleted Successfully
+          schema:
+            $ref: '#/definitions/genprotos.Void'
+        "401":
+          description: Error while deleting evaluation
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete Evaluation
+      tags:
+      - Evaluations
+    get:
+      consumes:
+      - application/json
+      description: Get an evaluation by ID
+      parameters:
+      - description: Evaluation ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Evaluation Data
+          schema:
+            $ref: '#/definitions/genprotos.EvaluationUpdate'
+        "401":
+          description: Error while fetching evaluation
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get Evaluation
+      tags:
+      - Evaluations
+  /evaluations/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new evaluation
+      parameters:
+      - description: Evaluation Data
+        in: body
+        name: evaluation
+        required: true
+        schema:
+          $ref: '#/definitions/genprotos.EvaluationCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Evaluation Created Successfully
+          schema:
+            $ref: '#/definitions/genprotos.Void'
+        "401":
+          description: Error while creating evaluation
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create Evaluation
+      tags:
+      - Evaluations
+  /guides:
+    get:
+      consumes:
+      - application/json
+      description: List all guides with optional filters
+      parameters:
+      - description: Guide Title
+        in: query
+        name: title
+        type: string
+      - description: Guide Content
+        in: query
+        name: content
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of Guides
+          schema:
+            $ref: '#/definitions/genprotos.ListAllGuidesResponse'
+        "401":
+          description: Error while listing guides
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: List All Guides
+      tags:
+      - Guides
+    post:
+      consumes:
+      - application/json
+      description: Create a new guide
+      parameters:
+      - description: Guide Data
+        in: body
+        name: guide
+        required: true
+        schema:
+          $ref: '#/definitions/genprotos.CreateGuideRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Guide Created Successfully
+          schema:
+            $ref: '#/definitions/genprotos.Void'
+        "401":
+          description: Error while creating guide
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create Guide
+      tags:
+      - Guides
+    put:
+      consumes:
+      - application/json
+      description: Update an existing guide
+      parameters:
+      - description: Guide Data
+        in: body
+        name: guide
+        required: true
+        schema:
+          $ref: '#/definitions/genprotos.UpdateGuideRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Guide Updated Successfully
+          schema:
+            $ref: '#/definitions/genprotos.Void'
+        "401":
+          description: Error while updating guide
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Update Guide
+      tags:
+      - Guides
+  /guides/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a guide by ID
+      parameters:
+      - description: Guide ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Guide Deleted Successfully
+          schema:
+            $ref: '#/definitions/genprotos.Void'
+        "401":
+          description: Error while deleting guide
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete Guide
+      tags:
+      - Guides
+    get:
+      consumes:
+      - application/json
+      description: Get a guide by ID
+      parameters:
+      - description: Guide ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Guide Data
+          schema:
+            $ref: '#/definitions/genprotos.GuideResponse'
+        "401":
+          description: Error while fetching guide
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get Guide
+      tags:
+      - Guides
+  /guides/search:
+    get:
+      consumes:
+      - application/json
+      description: Search for guides by title or content
+      parameters:
+      - description: Guide Title
+        in: query
+        name: title
+        type: string
+      - description: Guide Content
+        in: query
+        name: content
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of Found Guides
+          schema:
+            $ref: '#/definitions/genprotos.ListAllGuidesResponse'
+        "401":
+          description: Error while searching guides
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Search Guides
+      tags:
+      - Guides
+  /notifications:
+    get:
+      consumes:
+      - application/json
+      description: Get notifications by user ID
+      parameters:
+      - description: User ID
+        in: query
+        name: user_id
+        required: true
+        type: string
+      - description: Notification ID
+        in: query
+        name: notification_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Notifications fetched successfully
+          schema:
+            $ref: '#/definitions/genprotos.GetAllResponse'
+        "401":
+          description: Error while fetching notifications
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get Notifications
+      tags:
+      - Notification
+    post:
+      consumes:
+      - application/json
+      description: Create a new notification
+      parameters:
+      - description: Notification data
+        in: body
+        name: notification
+        required: true
+        schema:
+          $ref: '#/definitions/genprotos.CreateNotification'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Notification created successfully
+          schema:
+            $ref: '#/definitions/genprotos.Void'
+        "401":
+          description: Error while creating notification
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create Notification
+      tags:
+      - Notification
+  /notifications/read_all:
+    post:
+      consumes:
+      - application/json
+      description: Mark all notifications as read for a user
+      parameters:
+      - description: User ID
+        in: query
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: All notifications marked as read
+          schema:
+            $ref: '#/definitions/genprotos.Void'
+        "401":
+          description: Error while marking notifications as read
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Read All Notifications
+      tags:
+      - Notification
+  /notifications/send_all:
+    post:
+      consumes:
+      - application/json
+      description: Send a notification to all users in a company
+      parameters:
+      - description: Company ID
+        in: query
+        name: company_id
+        required: true
+        type: string
+      - description: Notification data
+        in: body
+        name: notification
+        required: true
+        schema:
+          $ref: '#/definitions/genprotos.SendByCompanyidToUsers'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Notification sent to all users
+          schema:
+            $ref: '#/definitions/genprotos.Void'
+        "401":
+          description: Error while sending notification
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Send Notification To All
+      tags:
+      - Notification
+  /notifications/send_all_users:
+    post:
+      consumes:
+      - application/json
+      description: Send a notification to all users
+      parameters:
+      - description: Notification data
+        in: body
+        name: notification
+        required: true
+        schema:
+          $ref: '#/definitions/genprotos.SendByCompanyidToUsers'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Notification sent to all users
+          schema:
+            $ref: '#/definitions/genprotos.Void'
+        "401":
+          description: Error while sending notification
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Send Notification To All Users
+      tags:
+      - Notification
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authourization
+    type: apiKey
+swagger: "2.0"
