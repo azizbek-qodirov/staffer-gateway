@@ -1,0 +1,3 @@
+[submodule "staffer-protos"]
+	path = staffer-protos
+	url = git@github.com:Azizbek-Qodirov/staffer-protos.git
