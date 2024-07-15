@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    container_name: api-gateway
+    build: .
+    ports:
+      - "8081:8081"
+    networks:
+      - staffer
+    
+networks:
+  staffer:
+    driver: bridge
