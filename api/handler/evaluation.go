@@ -1,10 +1,15 @@
 package handler
 
 import (
-	"github.com/gin-gonic/gin"
+	"encoding/json"
+	"log"
+	"net/http"
+
 	pb "github.com/Azizbek-Qodirov/hr_platform_api_service/genprotos"
+	"github.com/gin-gonic/gin"
 )
-//float
+
+// float
 // CreateEvaluation handles creating a new evaluation
 // @Summary Create Evaluation
 // @Description Create a new evaluation
@@ -21,11 +26,22 @@ func (h *Handler) CreateEvaluation(ctx *gin.Context) {
 	if err := ctx.BindJSON(&req); err != nil {
 		panic(err)
 	}
-	res, err := h.EvaluationStorage.Create(ctx, req)
+
+	arr, err := json.Marshal(req)
 	if err != nil {
-		panic(err)
+		ctx.JSON(400, err.Error())
+		return
 	}
-	ctx.JSON(200, res)
+
+	err = h.kafka.ProduceMessages("root", arr)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		log.Println("cannot produce messages via kafka", err.Error())
+		return
+	}
+	ctx.JSON(200, "SUCCESS!!!")
 }
 
 // GetEvaluation handles fetching an evaluation by ID
@@ -41,7 +57,7 @@ func (h *Handler) CreateEvaluation(ctx *gin.Context) {
 // @Router /evaluations/{id} [get]
 func (h *Handler) GetEvaluation(ctx *gin.Context) {
 	req := &pb.Byid{Id: ctx.Query("id")}
-	res, err := h.EvaluationStorage.Get(ctx,req)
+	res, err := h.EvaluationStorage.Get(ctx, req)
 	if err != nil {
 		panic(err)
 	}
@@ -64,7 +80,7 @@ func (h *Handler) UpdateEvaluation(ctx *gin.Context) {
 	if err := ctx.BindJSON(&req); err != nil {
 		panic(err)
 	}
-	res, err := h.EvaluationStorage.Update(ctx,req)
+	res, err := h.EvaluationStorage.Update(ctx, req)
 	if err != nil {
 		panic(err)
 	}
@@ -84,7 +100,7 @@ func (h *Handler) UpdateEvaluation(ctx *gin.Context) {
 // @Router /evaluations/{id} [delete]
 func (h *Handler) DeleteEvaluation(ctx *gin.Context) {
 	req := &pb.Byid{Id: ctx.Query("id")}
-	res, err := h.EvaluationStorage.Delete(ctx,req)
+	res, err := h.EvaluationStorage.Delete(ctx, req)
 	if err != nil {
 		panic(err)
 	}
@@ -109,7 +125,7 @@ func (h *Handler) GetAllEvaluations(ctx *gin.Context) {
 		EvaluatorId: ctx.Query("evaluator_id"),
 		EmployeeId:  ctx.Query("employee_id"),
 	}
-	res, err := h.EvaluationStorage.GetAll(ctx,req)
+	res, err := h.EvaluationStorage.GetAll(ctx, req)
 	if err != nil {
 		panic(err)
 	}

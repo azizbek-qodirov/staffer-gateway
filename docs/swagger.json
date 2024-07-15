@@ -5,56 +5,10 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "localhost:8082",
     "basePath": "/",
     "paths": {
         "/evaluations": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Get all evaluations with optional filters",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Evaluations"
-                ],
-                "summary": "Get All Evaluations",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Evaluator ID",
-                        "name": "evaluator_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Employee ID",
-                        "name": "employee_id",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "List of Evaluations",
-                        "schema": {
-                            "$ref": "#/definitions/genprotos.EvaluationGetAllRes"
-                        }
-                    },
-                    "401": {
-                        "description": "Error while fetching evaluations",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            },
             "put": {
                 "security": [
                     {
@@ -773,20 +727,6 @@
                 },
                 "rating": {
                     "type": "number"
-                }
-            }
-        },
-        "genprotos.EvaluationGetAllRes": {
-            "type": "object",
-            "properties": {
-                "Evaluations": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/genprotos.EvaluationUpdate"
-                    }
-                },
-                "success": {
-                    "type": "boolean"
                 }
             }
         },

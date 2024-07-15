@@ -1,0 +1,21 @@
+services:
+  # API Gateway
+  api-gateway:
+    container_name: api-gateway
+    build: .
+    ports:
+      - "8082:8082"
+    networks:
+      - mynetwork
+
+# Docker Networks
+networks:
+  api:
+    external: true
+    name: global-network
+  mynetwork:
+    driver: bridge
+
+# Docker Volumes
+volumes:
+  db:

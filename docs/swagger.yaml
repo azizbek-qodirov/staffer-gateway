@@ -31,15 +31,6 @@ definitions:
       rating:
         type: number
     type: object
-  genprotos.EvaluationGetAllRes:
-    properties:
-      Evaluations:
-        items:
-          $ref: '#/definitions/genprotos.EvaluationUpdate'
-        type: array
-      success:
-        type: boolean
-    type: object
   genprotos.EvaluationUpdate:
     properties:
       comment:
@@ -118,42 +109,13 @@ definitions:
       success:
         type: boolean
     type: object
-host: localhost:8080
+host: localhost:8082
 info:
   contact: {}
   description: Voting service
   version: "1.0"
 paths:
   /evaluations:
-    get:
-      consumes:
-      - application/json
-      description: Get all evaluations with optional filters
-      parameters:
-      - description: Evaluator ID
-        in: query
-        name: evaluator_id
-        type: string
-      - description: Employee ID
-        in: query
-        name: employee_id
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: List of Evaluations
-          schema:
-            $ref: '#/definitions/genprotos.EvaluationGetAllRes'
-        "401":
-          description: Error while fetching evaluations
-          schema:
-            type: string
-      security:
-      - BearerAuth: []
-      summary: Get All Evaluations
-      tags:
-      - Evaluations
     put:
       consumes:
       - application/json

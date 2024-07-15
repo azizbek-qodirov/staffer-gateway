@@ -16,52 +16,6 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/evaluations": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Get all evaluations with optional filters",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Evaluations"
-                ],
-                "summary": "Get All Evaluations",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Evaluator ID",
-                        "name": "evaluator_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Employee ID",
-                        "name": "employee_id",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "List of Evaluations",
-                        "schema": {
-                            "$ref": "#/definitions/genprotos.EvaluationGetAllRes"
-                        }
-                    },
-                    "401": {
-                        "description": "Error while fetching evaluations",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            },
             "put": {
                 "security": [
                     {
@@ -783,20 +737,6 @@ const docTemplate = `{
                 }
             }
         },
-        "genprotos.EvaluationGetAllRes": {
-            "type": "object",
-            "properties": {
-                "Evaluations": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/genprotos.EvaluationUpdate"
-                    }
-                },
-                "success": {
-                    "type": "boolean"
-                }
-            }
-        },
         "genprotos.EvaluationUpdate": {
             "type": "object",
             "properties": {
@@ -931,7 +871,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "localhost:8082",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "",

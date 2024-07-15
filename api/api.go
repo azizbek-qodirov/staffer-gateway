@@ -17,7 +17,7 @@ import (
 // @tite Voting service
 // @version 1.0
 // @description Voting service
-// @host localhost:8080
+// @host localhost:8082
 // @BasePath /
 // @securityDefinitions.apikey BearerAuth
 // @in header
